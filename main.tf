@@ -83,3 +83,17 @@ resource "aws_cloudwatch_event_target" "run_terminate_lambda" {
   target_id = "aws_lambda_function.terminate_instance.id"
   arn = "arn:aws:lambda:us-east-1:[--->This part needs to be adjusted<---]:function:myTerminate"
 }
+
+resource "aws_lambda_permission" "allow_cloudwatch" {
+  action = "lambda:InvokeFunction"
+  function_name = "myLaunch"
+  source_arn    = "arn:aws:events:us-east-1:[This part needs to be adjusted]:rule/cron_launch"
+  principal = "events.amazonaws.com"
+}
+
+resource "aws_lambda_permission" "allow_cloudwatch_2" {
+  action = "lambda:InvokeFunction"
+  function_name = "myTerminate"
+  source_arn    = "arn:aws:events:us-east-1:[This part needs to be adjusted]:rule/cron_terminate"
+  principal = "events.amazonaws.com"
+}
